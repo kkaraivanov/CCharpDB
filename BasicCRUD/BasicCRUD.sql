@@ -77,20 +77,13 @@ SELECT TOP(7) [FirstName], [LastName], [HireDate] FROM [Employees]
 ORDER BY [HireDate] DESC;
 
 /* 21.	Increase Salaries */
-SELECT [Salary] INTO TempSalary FROM [Employees];
-
 UPDATE [Employees]
-SET [Salary] = [Salary] + [Salary] * 0.12
-WHERE [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Engineering')
-	OR [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Tool Design')
-	OR [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Marketing')
-	OR [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Information Services');
+SET [Salary] = [Salary] * 1.12
+WHERE [DepartmentID] IN 
+(SELECT [DepartmentID] 
+FROM Departments WHERE [Name] IN ('Engineering', 'Tool Design', 'Marketing', 'Information Services'));
 
-SELECT * FROM [Employees]
-WHERE [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Engineering')
-	OR [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Tool Design')
-	OR [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Marketing')
-	OR [DepartmentID] = (SELECT [DepartmentID] FROM Departments WHERE [Name] = 'Information Services');
+SELECT [Salary] FROM [Employees];
 
 /* 22.	 All Mountain Peaks */
 USE Geography
@@ -104,7 +97,12 @@ ORDER BY [Population] DESC, [CountryName];
 
 /* Countries and Currency (Euro / Not Euro) */
 SELECT [CountryName], [CountryCode],
-CASE [CurrencyCode] WHEN 'EUR' THEN 'Euro' ELSE 'NOT EUR' END AS 'Currency' FROM [Countries]
+       CASE [CurrencyCode]
+           WHEN 'EUR'
+           THEN 'Euro'
+           ELSE 'Not Euro'
+       END AS 'Currency'
+FROM [Countries]
 ORDER BY [CountryName];
 
 /* All Diablo Characters */
