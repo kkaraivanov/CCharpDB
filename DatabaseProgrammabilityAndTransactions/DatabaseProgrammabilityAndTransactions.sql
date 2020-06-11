@@ -173,12 +173,112 @@ CREATE TABLE Logs (
   NewSum MONEY
 );
 
-CREATE TRIGGER InsertNewEntryIntoLogs ON Accounts
-  AFTER UPDATE
+CREATE TRIGGER InsertNewEntryIntoLogs ON Accounts FOR UPDATE
 AS
+BEGIN
   INSERT INTO Logs
   VALUES (
-    (SELECT Id FROM inserted),
-    (SELECT Balance FROM deleted),
-    (SELECT Balance FROM inserted)
+    (SELECT Id FROM INSERTED),
+    (SELECT Balance FROM DELETED),
+    (SELECT Balance FROM INSERTED)
   )
+END;
+
+/* Problem 15. Create Table Emails */
+CREATE TABLE NotificationEmails(
+	Id INT PRIMARY KEY IDENTITY,
+	Recipient NVARCHAR(250), 
+	[Subject] NVARCHAR(250),
+	Body NVARCHAR(250)
+)
+
+CREATE TRIGGER NotificationEmailsLogs ON Logs FOR INSERT
+AS
+BEGIN
+	DECLARE @recipient INT = (SELECT AccountId FROM INSERTED)
+	DECLARE @oldSum DECIMAL(18, 4) = (SELECT OldSum FROM INSERTED)
+	DECLARE @newSum DECIMAL(18, 4) = (SELECT NewSum FROM INSERTED)
+
+	INSERT INTO NotificationEmails(Recipient, [Subject], Body)
+	VALUES
+	(
+	    @recipient,
+	    'Balance change for account: ' + CAST(@recipient AS NVARCHAR(15)),
+	    'On ' + CAST(GETDATE() AS NVARCHAR(50)) + ' your balance was changed from ' +
+	    CAST(@oldSum AS NVARCHAR(30)) + ' to ' +
+	    CAST(@newSum AS NVARCHAR(50)) + '.'
+	)
+END
+
+/* Problem 16. Deposit Money */
+CREATE PROC usp_DepositMoney(@accountId INT, @moneyAmount DECIMAL(18, 4)) AS
+BEGIN
+	DECLARE @account INT = 
+		(SELECT Id FROM dbo.Accounts
+		WHERE id = @accountId)
+
+	IF(@moneyAmount < 0 OR @moneyAmount IS NULL)
+	BEGIN
+		RETURN
+	END
+
+	IF(@account IS NULL)
+	BEGIN
+		RETURN
+	END
+
+	UPDATE dbo.Accounts
+	SET
+		dbo.Accounts.Balance += @moneyAmount
+		WHERE dbo.Accounts.Id = @accountId
+END
+
+/* Problem 17. Withdraw Money */
+CREATE PROC usp_WithdrawMoney(@accountId INT, @moneyAmount DECIMAL(18, 4)) AS
+BEGIN
+	DECLARE @account INT = 
+		(SELECT Id FROM dbo.Accounts
+		WHERE id = @accountId)
+
+	IF(@moneyAmount < 0 OR @moneyAmount IS NULL)
+	BEGIN
+		RETURN
+	END
+
+	IF(@account IS NULL)
+	BEGIN
+		RETURN
+	END
+
+	UPDATE dbo.Accounts
+	SET
+		dbo.Accounts.Balance -= @moneyAmount
+		WHERE dbo.Accounts.Id = @accountId
+END
+
+/* Problem 18. Money Transfer */
+CREATE PROC usp_TransferMoney(@senderId INT, @receiverId INT, @amount DECIMAL(18, 4)) AS
+BEGIN
+	DECLARE @sender INT = (SELECT Id FROM dbo.Accounts
+		WHERE id = @senderId)
+	DECLARE @receiver INT = (SELECT Id FROM dbo.Accounts
+		WHERE id = @receiverId)
+
+	IF(@amount < 0 OR @amount IS NULL)
+	BEGIN
+		RETURN
+	END
+
+	IF(@sender IS NULL OR @receiver IS NULL)
+	BEGIN
+		RETURN
+	END
+
+	EXEC usp_WithdrawMoney @senderId, @amount
+	EXEC usp_DepositMoney @receiverId, @amount
+END
+
+/* Problem 19. Trigger */
+select* from UsersGames
+
+select* from Items
