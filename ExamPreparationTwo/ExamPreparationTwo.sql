@@ -125,13 +125,13 @@ RETURNS VARCHAR(200) AS
 BEGIN
 	DECLARE @findBigGrade DECIMAL(16, 2) = @grade + 0.50
 	DECLARE @findStudentId INT = (SELECT TOP(1) StudentId FROM StudentsExams WHERE StudentId = @studentId)
-	DECLARE @result VARCHAR(200)
 	DECLARE @findCount INT = 
 		(SELECT COUNT(*) FROM StudentsExams
 		WHERE StudentId = @studentId AND Grade >= @grade AND Grade <= @findBigGrade)
 	DECLARE @studentFirstName NVARCHAR(30) = 
 		(SELECT TOP(1) FirstName FROM Students WHERE Id = @studentId)
-	
+	DECLARE @result VARCHAR(200) = CONCAT('You have to update ', @findCount, ' grades for the student ', @studentFirstName)
+
 	IF(@findStudentId IS NULL)
 	BEGIN
 		SET @result = 'The student with provided id does not exist in the school!'
@@ -144,7 +144,6 @@ BEGIN
 		RETURN @result
 	END
 
-	SET @result = CONCAT('You have to update ', @findCount, ' grades for the student ', @studentFirstName)
 	RETURN @result
 END
 
