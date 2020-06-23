@@ -6,7 +6,7 @@
 
     class StartUp
     {
-        private static string connectionString = "Server=.\\SQLKARAIVANOV; Database=MinionsDB; User Id = sa; Password=karaivanov77";
+        private static string connectionString = "Server=.\\SQLKARAIVANOV; Database=MinionsDB; User Id = user; Password=password";
         private static SqlDataReader reader = null;
         private static SqlConnection conn = null;
         private static SqlCommand command = null;
@@ -24,6 +24,20 @@
             if (conn.State == ConnectionState.Open)
                 conn.Close();
 
+            using (conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                command = new SqlCommand(sql, conn);
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException ae)
+                {
+                    Console.WriteLine(ae.Message.ToString());
+                }
+            }
         }
 
         static void CreateDbTables()
@@ -72,55 +86,36 @@
         private static void CreateTable(string tableName, string filds)
         {
             string tableString = $"CREATE TABLE {tableName}({filds})";
-            if (conn.State == ConnectionState.Open)
-                conn.Close();
-
-            using (conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                command = new SqlCommand(tableString, conn);
-
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (SqlException ae)
-                {
-                    Console.WriteLine(ae.Message.ToString());
-                }
-            }
+            ExecuteSQLStatement(tableString);
         }
 
         private static void CreateDB()
         {
-            string conString = "Server=.\\SQLKARAIVANOV; Database=master; User Id = sa; Password=karaivanov77";
+            string conString = "Server=.\\SQLKARAIVANOV; Database=master; User Id = user; Password=password";
             string dbCheck = "SELECT top(1) name FROM master.dbo.sysdatabases where name='MinionsDB'";
             string sqlCreate = "CREATE DATABASE MinionsDB";
             bool DbNotExist = false;
-            string str = null;
 
             using (conn = new SqlConnection(conString))
             {
                 conn.Open();
                 command = new SqlCommand(dbCheck, conn);
                 reader = command.ExecuteReader();
+                string str = null;
+
                 while (reader.Read())
                 {
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
                         str = (string) reader[i];
                     }
-
-                    Console.WriteLine();
                 }
 
                 if (str == null)
                     DbNotExist = true;
             }
 
-            if (!DbNotExist)
-                return;
-            else
+            if (DbNotExist)
             {
                 if (conn.State == ConnectionState.Open)
                     conn.Close();
@@ -140,6 +135,8 @@
                     }
                 }
             }
+            else
+                return;
         }
     }
 }
