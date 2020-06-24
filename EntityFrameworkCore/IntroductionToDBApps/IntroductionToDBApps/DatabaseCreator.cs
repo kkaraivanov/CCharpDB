@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using Microsoft.Data.SqlClient;
+    using System.Data.SqlClient;
 
     public class DatabaseCreator
     {
@@ -57,6 +57,11 @@
         public string BaseName => this.dataBase;
 
         /// <summary>
+        /// Return Database connection string
+        /// </summary>
+        public string ConnectionString => this.connectionString;
+
+        /// <summary>
         /// Database creation method
         /// </summary>
         public void CreateDatabase()
@@ -101,10 +106,42 @@
                 {
                     foreach (var (tableName, fildValue) in tablesColection)
                     {
+                        if(TableNameExist(tableName))
+                            continue;
+
                         CreateTable(tableName, fildValue);
                     }
                 }
             }
+        }
+
+        private bool TableNameExist(string tableName)
+        {
+            string checkTable = $"Select TOP(1) TABLE_NAME " +
+                                $"From INFORMATION_SCHEMA.COLUMNS " +
+                                $"WHERE TABLE_NAME = '{tableName}'";
+            bool result = false;
+
+            using (conn = new SqlConnection(this.connectionString))
+            {
+                conn.Open();
+                var currentCommand = new SqlCommand(checkTable, conn);
+                var currentReader = currentCommand.ExecuteReader();
+                string dbName = null;
+
+                while (currentReader.Read())
+                {
+                    for (int i = 0; i < currentReader.FieldCount; i++)
+                    {
+                        dbName = (string)currentReader[i];
+                    }
+                }
+
+                if (dbName != null)
+                    result = true;
+            }
+
+            return result;
         }
 
         /// <summary>
