@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
     using System.Text;
@@ -29,20 +30,46 @@
             }
 
             // 2.	Villain Names
-            //Console.WriteLine(VillainNames.GetVillainNames(sqlConn));
+            Console.WriteLine(VillainNames.GetVillainNames(sqlConn));
 
             // 3.	Minion Names
-            //int villainId = int.Parse(Console.ReadLine());
-            //Console.WriteLine(MinionNames.GetMinionsInfoAboutVillain(sqlConn, villainId));
+            int villanId = int.Parse(Console.ReadLine());
+            Console.WriteLine(MinionNames.GetMinionsInfoAboutVillain(sqlConn, villanId));
 
             // 4.	Add Minion
             var minion = Console.ReadLine().Split(' ', 2).ToArray();
             var villainName = Console.ReadLine().Split(' ', 2).ToArray();
 
-            AddMinion.ToDatabase(sqlConn, minion, villainName);
-            ;
-            //Console.WriteLine(AddMinion.GetVillanId(sqlConn, villainName));
+            Console.WriteLine(AddMinion.ToDatabase(sqlConn, minion, villainName));
+
+            // 5.	Change Town Names Casing
+            string countryName = Console.ReadLine();
+            Console.WriteLine(ChangeTownNames.Change(sqlConn, countryName));
+
+            // 6.	*Remove Villain 
+            int villainId = int.Parse(Console.ReadLine());
+            Console.WriteLine(Villain.Remove(sqlConn, villainId));
+
+            // 7.	Print All Minion Names
+            Console.WriteLine(PrintMinion.PrintNames(sqlConn));
+
+            // 8.	Increase Minion Age
+            var minionsId = Console.ReadLine()
+                .Split().Select(int.Parse)
+                .ToArray();
+            for (int i = 0; i < minionsId.Length; i++)
+            {
+                UpdateMinions(sqlConn, minionsId[i]);
+            }
+
+            Console.WriteLine(DisplayMinions(sqlConn).ToString().TrimEnd());
+
+            // 9.	Increase Age Stored Procedure 
+            int minionId = int.Parse(Console.ReadLine());
+            RunProcedure(sqlConn, minionId);
         }
+
+        #region Problem 1
 
         private static Dictionary<string, string> InsertInToTables()
         {
@@ -159,5 +186,77 @@
                 Console.WriteLine(ae.Message.ToString());
             }
         }
+
+        #endregion
+
+        #region Problem 8
+
+        private static StringBuilder DisplayMinions(SqlConnection sqlConn)
+        {
+            string selectString = @"SELECT Name, Age FROM Minions";
+            var selectCommand = new SqlCommand(selectString, sqlConn);
+            SqlDataReader readr = selectCommand.ExecuteReader();
+            var sb = new StringBuilder();
+
+            while (readr.Read())
+            {
+                string name = readr["Name"].ToString();
+                string age = readr["Age"].ToString();
+
+                sb.AppendLine($"{name} {age}");
+            }
+
+            return sb;
+        }
+
+        private static void UpdateMinions(SqlConnection sqlConn, int minionId)
+        {
+            if (sqlConn.State == ConnectionState.Open)
+                sqlConn.Close();
+            sqlConn.Open();
+
+            string updateString = @"UPDATE Minions 
+                                    SET Name = UPPER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)), Age += 1 
+                                    WHERE Id = @Id";
+            var updateCommand = new SqlCommand(updateString, sqlConn);
+            updateCommand.Parameters.AddWithValue("@Id", minionId);
+            updateCommand.ExecuteNonQuery();
+        }
+
+        #endregion
+
+        #region Problem 9
+
+        private static void RunProcedure(SqlConnection sqlConn, int minionId)
+        {
+            if (sqlConn.State == ConnectionState.Open)
+                sqlConn.Close();
+            sqlConn.Open();
+
+            string updateString = @"usp_GetOlder";
+            var updateCommand = new SqlCommand(updateString, sqlConn);
+            updateCommand.CommandType = CommandType.StoredProcedure;
+            SqlParameter param;
+            param = updateCommand.Parameters.Add("@Id", SqlDbType.Int);
+            param.Value = minionId;
+            updateCommand.ExecuteNonQuery();
+
+            string selectString = @"SELECT Name, Age FROM Minions WHERE Id = @Id";
+            var selectCommand = new SqlCommand(selectString, sqlConn);
+            selectCommand.Parameters.AddWithValue("@Id", minionId);
+            SqlDataReader readMinion = selectCommand.ExecuteReader();
+
+            while (readMinion.Read())
+            {
+                string minionName = readMinion["Name"].ToString();
+                string minionAge = readMinion["Age"].ToString();
+
+                Console.WriteLine($"{minionName} – {minionAge} years old");
+            }
+        }
+
+        #endregion
+
+        
     }
 }
