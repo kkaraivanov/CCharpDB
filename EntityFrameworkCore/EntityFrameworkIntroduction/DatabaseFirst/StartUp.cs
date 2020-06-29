@@ -130,8 +130,7 @@
         public static string GetAddressesByTown(SoftUniContext context)
         {
             var employeeInfo = new StringBuilder();
-            var addresses =
-                context.Addresses
+            var addresses = context.Addresses
                     .Include(x => x.Employees)
                     .Include(x => x.Town)
                     .OrderByDescending(x => x.Employees.Count)
