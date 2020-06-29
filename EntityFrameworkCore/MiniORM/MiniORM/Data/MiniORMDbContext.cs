@@ -12,9 +12,9 @@
 
         public DbSet<Department> Departments { get; }
 
-        public DbSet<Address> Addresses { get; }
+        //public DbSet<Address> Addresses { get; }
 
-        public DbSet<Town> Towns { get; }
+        //public DbSet<Town> Towns { get; }
 
         public DbSet<Project> Projects { get; }
 

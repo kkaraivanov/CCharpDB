@@ -20,28 +20,28 @@
         [MaxLength(50)]
         public string LastName { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string JobTitle { get; set; }
+        //[Required]
+        //[MaxLength(50)]
+        //public string JobTitle { get; set; }
 
         public bool IsEmployed { get; set; }
 
-        [ForeignKey(nameof(Departments))]
-        public Department DepartmentId { get; set; }
+        [ForeignKey(nameof(Entities.Department))]
+        public int DepartmentId { get; set; }
 
-        [ForeignKey(nameof(Employees))]
-        public Employee ManagerId { get; set; }
+        //[ForeignKey(nameof(Employee))]
+        //public Employee ManagerId { get; set; }
 
-        [Required]
-        [Column(TypeName = "decimal(16, 2)")]
-        public decimal Salary { get; set; }
+        //[Required]
+        //[Column(TypeName = "decimal(16, 2)")]
+        //public decimal Salary { get; set; }
 
-        [ForeignKey(nameof(Address))]
-        public int AddressId { get; set; }
+        //[ForeignKey(nameof(Address))]
+        //public int AddressId { get; set; }
 
-        public ICollection<Employee> Employees { get; }
+        //public ICollection<Employee> Employees { get; }
 
-        public ICollection<Department> Departments { get; }
+        public Department Department { get; set; }
 
         public ICollection<EmployeeProject> EmployeeProjects { get; }
     }

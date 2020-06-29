@@ -115,8 +115,6 @@
             }
         }
 
-
-
         private void MapCollection<TDbSet, TCollection>(DbSet<TDbSet> dbSet, PropertyInfo collectionProperty)
             where TDbSet : class, new() where TCollection : class, new()
         {
@@ -190,17 +188,15 @@
             }
         }
 
-
-        private static bool IsObjectValid(object entity)
+        private static bool IsObjectValid(object obj)
         {
-            var validationContext = new ValidationContext(entity);
+            var validationContext = new ValidationContext(obj);
             var validationErrors = new List<ValidationResult>();
 
             var validationResult =
-                Validator.TryValidateObject(entity, validationContext, validationErrors, validateAllProperties: true);
+                Validator.TryValidateObject(obj, validationContext, validationErrors, validateAllProperties: true);
             return validationResult;
         }
-
 
         private IEnumerable<TEntity> LoadTableEntities<TEntity>()
             where TEntity : class
@@ -226,7 +222,6 @@
             }
             return tableName;
         }
-
 
         private string[] GetEntityColumnNames(Type table)
         {
@@ -291,6 +286,7 @@
                             throw;
                         }
                     }
+
                     transaction.Commit();
                 }
             }
