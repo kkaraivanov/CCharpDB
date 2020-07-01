@@ -250,7 +250,7 @@
                     x.JobTitle,
                     x.Salary
                 })
-                .OrderByDescending(x => x.FirstName)
+                .OrderBy(x => x.FirstName)
                 .ThenBy(x => x.LastName);
                 
                 foreach (var e in employees)
