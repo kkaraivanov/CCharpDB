@@ -241,40 +241,28 @@
         // 13.	Find Employees by First Name Starting With "Sa"
         public static string GetEmployeesByFirstNameStartingWithSa(SoftUniContext context)
         {
-            if (context.Employees.Any(e => e.FirstName == "Svetlin"))
-            {
-                string pattern = "SA";
-                var employeesByNamePattern = context.Employees
-                    .Where(employee => employee.FirstName.StartsWith(pattern));
- 
-                foreach (var employeeByPattern in employeesByNamePattern)
-                {
-                    returnsInfo.AppendLine($"{employeeByPattern.FirstName} {employeeByPattern.LastName} " +
-                                       $"- {employeeByPattern.JobTitle} - (${employeeByPattern.Salary})");
-                }
-            }
-            else
-            {
-                var employeesByNamePattern = context.Employees.Select(e => new
-                {
-                    e.FirstName,
-                    e.LastName,
-                    e.JobTitle,
-                    e.Salary,
-                })
-                    .Where(e => e.FirstName.StartsWith("Sa"))
-                    .OrderBy(e => e.FirstName)
-                    .ThenBy(e => e.LastName)
-                    .ToList();
- 
-                foreach (var employee in employeesByNamePattern)
-                {
-                    returnsInfo.AppendLine($"{employee.FirstName} {employee.LastName} " +
-                                       $"- {employee.JobTitle} - (${employee.Salary:F2})");
-                }
-            });
+            if (!context.Employees.Any(x => x.FirstName == "Svetlin"))
+                return "";
 
-            return returnsInfo.ToString().TrimEnd();
+            var employees = context.Employees
+                .Select(x => new
+                {
+                    x.FirstName,
+                    x.LastName,
+                    x.JobTitle,
+                    x.Salary
+                })
+                .Where(x => x.FirstName.StartsWith("Sa"))
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName);
+
+            foreach (var e in employees)
+            {
+                returnsInfo.AppendLine($"{e.FirstName} {e.LastName} - " +
+                                       $"{e.JobTitle} - (${e.Salary:f2})");
+            }
+
+            return returnsInfo.ToString().Trim();
         }
 
         // 14.	Delete Project by Id
