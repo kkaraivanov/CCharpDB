@@ -31,13 +31,30 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder ob)
         {
-            if(!ob.IsConfigured)
+            if (!ob.IsConfigured)
                 ob.UseSqlServer(DbConfiguration.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            
+            mb.Entity<Team>(e =>
+            {
+                e.HasKey(x => x.TeamId);
+                e.Property(x => x.Name)
+                    .IsRequired(true)
+                    .IsUnicode(true)
+                    .HasMaxLength(50);
+                e.Property(x => x.LogoUrl)
+                    .IsRequired(true)
+                    .IsUnicode(false);
+                e.Property(x => x.Initials)
+                    .IsRequired(true)
+                    .IsUnicode(true)
+                    .HasMaxLength(3);
+                e.HasOne(t => t.PrimaryKitColor)
+                    .WithMany(x => x.PrimaryKitTeams)
+                    .HasForeignKey(x => x.PrimaryKitColorId);
+            });
         }
     }
 }
