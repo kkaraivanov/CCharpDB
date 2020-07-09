@@ -12,7 +12,7 @@
                 .HasKey(p => new {p.GameId, p.PlayerId});
             builder
                 .HasOne(p => p.Game)
-                .WithMany(x => x.GameStatistics)
+                .WithMany(x => x.PlayerStatistics)
                 .HasForeignKey(x => x.GameId);
             builder
                 .HasOne(p => p.Player)

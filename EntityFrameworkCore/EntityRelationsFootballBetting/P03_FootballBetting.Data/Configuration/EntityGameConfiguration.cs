@@ -11,13 +11,15 @@
             builder
                 .HasKey(p => p.GameId);
             builder
-                .HasOne(p => p.HimeTeam)
+                .HasOne(p => p.HomeTeam)
                 .WithMany(x => x.HomeGames)
-                .HasForeignKey(x => x.HomeTeamId);
+                .HasForeignKey(x => x.HomeTeamId)
+                .OnDelete(DeleteBehavior.Restrict);
             builder
                 .HasOne(p => p.AwayTeam)
                 .WithMany(x => x.AwayGames)
-                .HasForeignKey(x => x.AwayTeamId);
+                .HasForeignKey(x => x.AwayTeamId)
+                .OnDelete(DeleteBehavior.Restrict);
             builder
                 .Property(p => p.Result)
                 .IsRequired(false)

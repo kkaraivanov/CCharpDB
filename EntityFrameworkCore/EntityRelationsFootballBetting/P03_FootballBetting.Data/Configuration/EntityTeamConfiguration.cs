@@ -1,5 +1,6 @@
 ﻿namespace P03_FootballBetting.Data.Configuration
 {
+    using System.Security.Cryptography.X509Certificates;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Models;
@@ -27,11 +28,13 @@
             builder
                 .HasOne(p => p.PrimaryKitColor)
                 .WithMany(x => x.PrimaryKitTeams)
-                .HasForeignKey(x => x.PrimaryKitColorId);
+                .HasForeignKey(x => x.PrimaryKitColorId)
+                .OnDelete(DeleteBehavior.Restrict);
             builder
                 .HasOne(p => p.SecondaryKitColor)
                 .WithMany(x => x.SecondaryKitTeams)
-                .HasForeignKey(x => x.SecondaryKitColorId);
+                .HasForeignKey(x => x.SecondaryKitColorId)
+                .OnDelete(DeleteBehavior.Restrict);
             builder
                 .HasOne(p => p.Town)
                 .WithMany(x => x.Teams)

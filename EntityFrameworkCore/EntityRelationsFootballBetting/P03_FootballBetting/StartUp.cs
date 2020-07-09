@@ -1,12 +1,16 @@
 ﻿namespace P03_FootballBetting
 {
     using System;
+    using Data;
 
     public class StartUp
     {
         static void Main()
         {
-            Console.WriteLine("Hello World!");
+            var dbContext = new FootballBettingContext();
+            dbContext.Database.EnsureCreated();
+
+
         }
     }
 }
