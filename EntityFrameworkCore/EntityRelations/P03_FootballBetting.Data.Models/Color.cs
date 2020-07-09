@@ -11,6 +11,7 @@
         }
 
         public int ColorId { get; set; } 
+
         public string Name { get; set; }
 
         public virtual ICollection<Team> PrimaryKitTeams { get; set; }

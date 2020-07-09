@@ -1,5 +1,6 @@
 ﻿namespace P03_FootballBetting.Data
 {
+    using Configuration;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
@@ -37,24 +38,16 @@
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            mb.Entity<Team>(e =>
-            {
-                e.HasKey(x => x.TeamId);
-                e.Property(x => x.Name)
-                    .IsRequired(true)
-                    .IsUnicode(true)
-                    .HasMaxLength(50);
-                e.Property(x => x.LogoUrl)
-                    .IsRequired(true)
-                    .IsUnicode(false);
-                e.Property(x => x.Initials)
-                    .IsRequired(true)
-                    .IsUnicode(true)
-                    .HasMaxLength(3);
-                e.HasOne(t => t.PrimaryKitColor)
-                    .WithMany(x => x.PrimaryKitTeams)
-                    .HasForeignKey(x => x.PrimaryKitColorId);
-            });
+            mb.ApplyConfiguration(new EntityTeamConfiguration());
+            mb.ApplyConfiguration(new EntityColorConfiguration());
+            mb.ApplyConfiguration(new EntityTownConfiguration());
+            mb.ApplyConfiguration(new EntityCountryConfiguration());
+            mb.ApplyConfiguration(new EntityPlayerConfiguration());
+            mb.ApplyConfiguration(new EntityPlayerStatisticConfiguration());
+            mb.ApplyConfiguration(new EntityPositionConfiguration());
+            mb.ApplyConfiguration(new EntityGameConfiguration());
+            mb.ApplyConfiguration(new EntityBetConfiguration());
+            mb.ApplyConfiguration(new EntityUserConfiguration());
         }
     }
 }

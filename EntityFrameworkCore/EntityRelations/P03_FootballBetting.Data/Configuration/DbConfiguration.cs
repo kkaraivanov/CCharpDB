@@ -1,4 +1,4 @@
-﻿namespace P03_FootballBetting.Data.Models
+﻿namespace P03_FootballBetting.Data.Configuration
 {
     internal static class DbConfiguration
     {

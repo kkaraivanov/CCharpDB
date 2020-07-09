@@ -7,14 +7,14 @@
     {
         public Game()
         {
-            PlayerStatistics = new HashSet<PlayerStatistic>();
+            GameStatistics = new HashSet<PlayerStatistic>();
             Bets = new HashSet<Bet>();
         }
 
         public int GameId { get; set; }
 
         public int HomeTeamId { get; set; }
-        public Team TeamTeam { get; set; }
+        public Team HimeTeam { get; set; }
 
         public int AwayTeamId { get; set; }
         public Team AwayTeam { get; set; }
@@ -33,7 +33,7 @@
 
         public string Result { get; set; }
 
-        public virtual ICollection<PlayerStatistic> PlayerStatistics { get; set; }
+        public virtual ICollection<PlayerStatistic> GameStatistics { get; set; }
         public virtual ICollection<Bet> Bets { get; set; }
     }
 }
