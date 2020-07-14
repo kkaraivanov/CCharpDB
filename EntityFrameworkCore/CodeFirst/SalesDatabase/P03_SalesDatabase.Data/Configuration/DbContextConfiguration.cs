@@ -1,8 +1,8 @@
-﻿namespace P01_HospitalDatabase.Data.Configuration
+﻿namespace P03_SalesDatabase.Data.Configuration
 {
-    internal static class DbContextConfiguration
+    public static class DbContextConfiguration
     {
-        internal static string ConnectionString =>
-            "Server=.\\SQLKARAIVANOV;Database=FootballBookmakerSystem;Integrated Security=True;";
+        public static string ConnectionString =>
+            "Server=.\\SQLKARAIVANOV;Database=Sales;Integrated Security=True;";
     }
 }

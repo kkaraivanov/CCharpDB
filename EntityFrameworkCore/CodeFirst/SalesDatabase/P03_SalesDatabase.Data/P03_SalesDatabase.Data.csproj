@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200714145121_ProductsAddColumnDescription.cs" />
+    <Compile Remove="Migrations\20200714145121_ProductsAddColumnDescription.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\P03_SalesDatabase.Data.Models\P03_SalesDatabase.Data.Models.csproj" />
   </ItemGroup>
 
 </Project>
