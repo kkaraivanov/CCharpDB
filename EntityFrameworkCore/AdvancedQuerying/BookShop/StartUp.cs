@@ -18,7 +18,8 @@
             
             try
             {
-                Console.WriteLine(GetBooksNotReleasedIn(db, int.Parse(Console.ReadLine())));
+                //Console.WriteLine(InputReader.GetMostRecentBooks(db));
+                //Console.WriteLine(InputReader.RemoveBooks(db));
             }
             catch (Exception e)
             {
@@ -26,9 +27,6 @@
             }
         }
 
-        public static string GetBooksNotReleasedIn(BookShopContext context, int year)
-        {
-
-        }
+        
     }
 }
