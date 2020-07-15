@@ -1,13 +1,7 @@
 ﻿namespace BookShop
 {
     using System;
-    using System.Linq;
-    using System.Reflection.Metadata.Ecma335;
-    using System.Text;
     using Data;
-    using Initializer;
-    using Initializer.Managment;
-    using Models.Enums;
 
     public class StartUp
     {
