@@ -1,0 +1,19 @@
+﻿@model FastFood.Core.ViewModels.Positions.CreatePositionInputModel
+@{
+    ViewData["Title"] = "Create Position";
+}
+<h1 class="text-center">Create Position</h1>
+<hr class="bg-secondary half-width" />
+<form class="mx-auto half-width" asp-controller="Positions" asp-action="Create" method="post">
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="positionName">Position Name</label>
+            <input asp-for="PositionName" type="text" class="form-control" id="positionName" placeholder="Position Name..." name="positionName">
+            <span asp-validation-for="PositionName" class="text-danger"></span>
+        </div>
+    </div>
+    <hr class="bg-secondary half-width" />
+    <div class="button-holder d-flex justify-content-center">
+        <button type="submit" class="btn ">Create</button>
+    </div>
+</form>
