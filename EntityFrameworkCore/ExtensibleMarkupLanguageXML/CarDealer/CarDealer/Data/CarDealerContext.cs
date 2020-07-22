@@ -1,7 +1,6 @@
 ﻿namespace CarDealer.Data
 {
     using Microsoft.EntityFrameworkCore;
-
     using Models;
 
     public class CarDealerContext : DbContext
@@ -26,7 +25,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.;Database=CarDealer;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(DbContextConfiguration.ConnectionString);
             }
         }
 
