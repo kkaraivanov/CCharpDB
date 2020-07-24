@@ -34,6 +34,27 @@
             modelBuilder.Entity<PartCar>(e =>
             {
                 e.HasKey(k => new { k.CarId, k.PartId });
+
+                e.HasOne(x => x.Part)
+                    .WithMany(x => x.PartCars)
+                    .HasForeignKey(x => x.PartId);
+
+                e.HasOne(x => x.Car)
+                    .WithMany(x => x.PartCars)
+                    .HasForeignKey(x => x.CarId);
+            });
+
+            modelBuilder.Entity<Sale>(e =>
+            {
+                e.HasKey(k => k.Id);
+
+                e.HasOne(x => x.Customer)
+                    .WithMany(x => x.Sales)
+                    .HasForeignKey(x => x.CustomerId);
+
+                e.HasOne(x => x.Car)
+                    .WithMany(x => x.Sales)
+                    .HasForeignKey(x => x.CarId);
             });
         }
     }
