@@ -12,7 +12,6 @@
                 .WithMany(x => x.Orders)
                 .HasForeignKey(x => x.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }

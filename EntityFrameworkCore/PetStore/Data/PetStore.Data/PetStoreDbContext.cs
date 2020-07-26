@@ -50,6 +50,7 @@
             mb.ApplyConfiguration(new ConfigurationOrders());
             mb.ApplyConfiguration(new ConfigurationToyOrders());
             mb.ApplyConfiguration(new ConfigurationFoodOrders());
+            mb.ApplyConfiguration(new ConfigurationCusotmers());
         }
     }
 }

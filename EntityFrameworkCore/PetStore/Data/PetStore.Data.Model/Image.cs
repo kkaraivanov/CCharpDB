@@ -1,21 +1,16 @@
-﻿namespace PetSore.Data.Model
+﻿namespace PetStore.Data.Model
 {
     using System.Collections.Generic;
-    using PetStore.Data.Model.PetModel;
+    using PetModel;
 
     public class Image
     {
-        public Image()
-        {
-            Pets = new HashSet<Pet>();
-        }
-
         public int Id { get; set; }
 
         public string Url { get; set; }
 
         public string Description { get; set; }
 
-        public ICollection<Pet> Pets { get; set; }
+        public ICollection<Pet> Pets { get; set; } = new HashSet<Pet>();
     }
 }

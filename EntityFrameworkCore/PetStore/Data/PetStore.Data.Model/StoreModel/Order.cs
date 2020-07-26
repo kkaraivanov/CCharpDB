@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Customer;
     using FoodModel;
     using PetModel;
@@ -10,6 +11,7 @@
 
     public class Order
     {
+        [Key]
         public int Id { get; set; }
 
         public DateTime PurchaseDate { get; set; }
@@ -19,10 +21,10 @@
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        public HashSet<Pet> Pets { get; set; } = new HashSet<Pet>();
+        public ICollection<Pet> Pets { get; set; } = new HashSet<Pet>();
 
-        public HashSet<FoodOrder> FoodOrders { get; set; } = new HashSet<FoodOrder>();
+        public ICollection<FoodOrder> FoodOrders { get; set; } = new HashSet<FoodOrder>();
 
-        public HashSet<ToyOrders> ToyOrders { get; set; } = new HashSet<ToyOrders>();
+        public ICollection<ToyOrders> ToyOrders { get; set; } = new HashSet<ToyOrders>();
     }
 }
