@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30223.230
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{69030255-D92B-4D68-9849-850A4ABEA185}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetStore.Data", "Data\PetStore.Data\PetStore.Data.csproj", "{2CE97510-A7B8-46B1-B762-B8CC11030A28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetStore.Data.Model", "Data\PetStore.Data.Model\PetStore.Data.Model.csproj", "{8023249C-1EA7-4B1C-9C4D-C69EBF649441}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetSore.Data.Common", "Data\PetSore.Data.Common\PetSore.Data.Common.csproj", "{D418AC97-3F9E-48B6-8B3B-B4994F7F6548}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CE97510-A7B8-46B1-B762-B8CC11030A28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE97510-A7B8-46B1-B762-B8CC11030A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE97510-A7B8-46B1-B762-B8CC11030A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE97510-A7B8-46B1-B762-B8CC11030A28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8023249C-1EA7-4B1C-9C4D-C69EBF649441}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8023249C-1EA7-4B1C-9C4D-C69EBF649441}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8023249C-1EA7-4B1C-9C4D-C69EBF649441}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8023249C-1EA7-4B1C-9C4D-C69EBF649441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D418AC97-3F9E-48B6-8B3B-B4994F7F6548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D418AC97-3F9E-48B6-8B3B-B4994F7F6548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D418AC97-3F9E-48B6-8B3B-B4994F7F6548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D418AC97-3F9E-48B6-8B3B-B4994F7F6548}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2CE97510-A7B8-46B1-B762-B8CC11030A28} = {69030255-D92B-4D68-9849-850A4ABEA185}
+		{8023249C-1EA7-4B1C-9C4D-C69EBF649441} = {69030255-D92B-4D68-9849-850A4ABEA185}
+		{D418AC97-3F9E-48B6-8B3B-B4994F7F6548} = {69030255-D92B-4D68-9849-850A4ABEA185}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F445F1A2-A1EC-4143-B3B9-ACB6C49AF8D5}
+	EndGlobalSection
+EndGlobal
