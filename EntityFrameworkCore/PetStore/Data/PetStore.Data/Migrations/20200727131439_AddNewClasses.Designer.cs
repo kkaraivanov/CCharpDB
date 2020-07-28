@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetStore.Data;
 
 namespace PetStore.Data.Migrations
 {
     [DbContext(typeof(PetStoreDbContext))]
-    partial class PetStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200727131439_AddNewClasses")]
+    partial class AddNewClasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +64,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.ToTable("DeliveryFoods");
+                    b.ToTable("DeliveryFood");
                 });
 
             modelBuilder.Entity("PetStore.Data.Model.Distributor.DeliveryToy", b =>
@@ -77,7 +79,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("ToyId");
 
-                    b.ToTable("DeliveryToies");
+                    b.ToTable("DeliveryToy");
                 });
 
             modelBuilder.Entity("PetStore.Data.Model.Distributor.Distributor", b =>
@@ -99,7 +101,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Distributors");
+                    b.ToTable("Distributor");
                 });
 
             modelBuilder.Entity("PetStore.Data.Model.Distributor.DistributorDelivery", b =>
@@ -127,7 +129,7 @@ namespace PetStore.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("DistributorDeliveries");
+                    b.ToTable("DistributorDelivery");
                 });
 
             modelBuilder.Entity("PetStore.Data.Model.FoodModel.Food", b =>

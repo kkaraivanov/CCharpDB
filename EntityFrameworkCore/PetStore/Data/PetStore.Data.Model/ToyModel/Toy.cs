@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Distributor;
     using StoreModel;
     using static DataValidationAttribute;
 
@@ -19,6 +20,8 @@
 
         public decimal Price { get; set; }
 
+        public int Quantity { get; set; }
+
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
 
@@ -26,5 +29,7 @@
         public Category Category { get; set; }
 
         public ICollection<ToyOrders> ToyOrders { get; set; } = new HashSet<ToyOrders>();
+
+        public ICollection<DeliveryToy> DeliveryToys { get; set; } = new HashSet<DeliveryToy>();
     }
 }

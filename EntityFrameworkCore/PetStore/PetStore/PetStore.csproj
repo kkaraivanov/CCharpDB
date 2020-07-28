@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\PetStore.Data\PetStore.Data.csproj" />
+    <ProjectReference Include="..\Services\PetSore.Services\PetSore.Services.csproj" />
   </ItemGroup>
 
 </Project>

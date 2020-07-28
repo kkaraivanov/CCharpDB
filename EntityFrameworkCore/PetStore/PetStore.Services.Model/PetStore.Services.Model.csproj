@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\PetStore.Data.Model\PetStore.Data.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Food\" />
+    <Folder Include="Pet\" />
+  </ItemGroup>
+
+</Project>

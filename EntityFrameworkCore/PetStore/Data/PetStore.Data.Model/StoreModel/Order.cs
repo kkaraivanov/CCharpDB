@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Customer;
+    using Distributor;
     using FoodModel;
     using PetModel;
     using PetSore.Data.Common.Enumerators;
@@ -22,6 +23,8 @@
         public Customer Customer { get; set; }
 
         public ICollection<Pet> Pets { get; set; } = new HashSet<Pet>();
+
+        public ICollection<DistributorDelivery> DistributorDeliverys { get; set; } = new HashSet<DistributorDelivery>();
 
         public ICollection<FoodOrder> FoodOrders { get; set; } = new HashSet<FoodOrder>();
 

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Distributor;
     using StoreModel;
     using static DataValidationAttribute;
 
@@ -18,6 +19,8 @@
 
         public decimal Price { get; set; }
 
+        public int Quantity { get; set; }
+
         [Required]
         public DateTime EsprirationDate { get; set; }
 
@@ -28,5 +31,7 @@
         public Category Category { get; set; }
 
         public ICollection<FoodOrder> FoodOrders { get; set; } = new HashSet<FoodOrder>();
+
+        public ICollection<DeliveryFood> DeliveryFoods { get; set; } = new HashSet<DeliveryFood>();
     }
 }

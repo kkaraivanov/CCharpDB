@@ -1,11 +1,14 @@
 ﻿namespace PetStore.Data.Configuration
 {
+    using System.IO;
+    using Newtonsoft.Json;
+
     public static class DbContextConfiguration
     {
-        public const string DatabaseName = "PetStore";
-        public const string ServerName = "\\SQLKARAIVANOV";
+        private static string DatabaseName = "PetStore";
+        private static string ServerName = "";
 
         public static string ConnectionString =>
-            $"Server=.{ServerName};Database={DatabaseName};Integrated Security=True;";
+            $"Server=.\\{ServerName};Database={DatabaseName};Integrated Security=True;";
     }
 }

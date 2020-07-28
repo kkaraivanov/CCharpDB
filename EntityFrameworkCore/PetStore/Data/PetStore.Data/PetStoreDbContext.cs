@@ -3,6 +3,7 @@
     using Configuration;
     using Microsoft.EntityFrameworkCore;
     using Model.Customer;
+    using Model.Distributor;
     using Model.FoodModel;
     using Model.PetModel;
     using Model.StoreModel;
@@ -34,6 +35,16 @@
 
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<ToyOrders> ToyOrderses { get; set; }
+
+        public DbSet<Distributor> Distributors { get; set; }
+
+        public DbSet<DistributorDelivery> DistributorDeliveries { get; set; }
+
+        public DbSet<DeliveryToy> DeliveryToies { get; set; }
+
+        public DbSet<DeliveryFood> DeliveryFoods { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -51,6 +62,9 @@
             mb.ApplyConfiguration(new ConfigurationToyOrders());
             mb.ApplyConfiguration(new ConfigurationFoodOrders());
             mb.ApplyConfiguration(new ConfigurationCusotmers());
+            mb.ApplyConfiguration(new ConfigurationDeliveryFoods());
+            mb.ApplyConfiguration(new ConfigurationDeliveryToys());
+            mb.ApplyConfiguration(new ConfigurationDistributorDeliveries());
         }
     }
 }
