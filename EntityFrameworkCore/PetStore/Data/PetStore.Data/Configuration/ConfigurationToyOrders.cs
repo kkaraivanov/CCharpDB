@@ -4,9 +4,9 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Model.ToyModel;
 
-    public class ConfigurationToyOrders : IEntityTypeConfiguration<ToyOrders>
+    public class ConfigurationToyOrders : IEntityTypeConfiguration<ToyOrder>
     {
-        public void Configure(EntityTypeBuilder<ToyOrders> b)
+        public void Configure(EntityTypeBuilder<ToyOrder> b)
         {
             b.HasKey(x => new { x.ToyId, x.OrderId });
 

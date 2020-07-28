@@ -28,7 +28,7 @@
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public ICollection<ToyOrders> ToyOrders { get; set; } = new HashSet<ToyOrders>();
+        public ICollection<ToyOrder> ToyOrders { get; set; } = new HashSet<ToyOrder>();
 
         public ICollection<DeliveryToy> DeliveryToys { get; set; } = new HashSet<DeliveryToy>();
     }

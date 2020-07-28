@@ -18,6 +18,6 @@
         [MinLength(bankAccountMinLenght)]
         public string BankAccount { get; set; }
 
-        public ICollection<DistributorDelivery> DistributorDeliverys { get; set; } = new HashSet<DistributorDelivery>();
+        public ICollection<DistributorDelivery> DistributorDeliveries { get; set; } = new HashSet<DistributorDelivery>();
     }
 }

@@ -35,7 +35,7 @@
 
         public DbSet<Order> Orders { get; set; }
 
-        public DbSet<ToyOrders> ToyOrderses { get; set; }
+        public DbSet<ToyOrder> ToyOrders { get; set; }
 
         public DbSet<Distributor> Distributors { get; set; }
 
@@ -64,6 +64,7 @@
             mb.ApplyConfiguration(new ConfigurationCusotmers());
             mb.ApplyConfiguration(new ConfigurationDeliveryFoods());
             mb.ApplyConfiguration(new ConfigurationDeliveryToys());
+            mb.ApplyConfiguration(new ConfigurationDistributor());
             mb.ApplyConfiguration(new ConfigurationDistributorDeliveries());
         }
     }

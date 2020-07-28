@@ -36,12 +36,12 @@
             db.SaveChanges();
             
             var orderId = db.Orders.Select(x => x.Id).Max();
-            var toyOrders = new ToyOrders
+            var toyOrders = new ToyOrder
             {
                 ToyId = toy.Id,
                 OrderId = orderId
             };
-            db.ToyOrderses.Add(toyOrders);
+            db.ToyOrders.Add(toyOrders);
             db.SaveChanges();
 
             return quantity == 1 ? 

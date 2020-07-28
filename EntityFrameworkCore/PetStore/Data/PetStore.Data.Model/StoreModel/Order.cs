@@ -28,6 +28,6 @@
 
         public ICollection<FoodOrder> FoodOrders { get; set; } = new HashSet<FoodOrder>();
 
-        public ICollection<ToyOrders> ToyOrders { get; set; } = new HashSet<ToyOrders>();
+        public ICollection<ToyOrder> ToyOrders { get; set; } = new HashSet<ToyOrder>();
     }
 }

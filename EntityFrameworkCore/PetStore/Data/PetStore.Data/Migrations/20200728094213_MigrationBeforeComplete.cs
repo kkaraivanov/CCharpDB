@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetStore.Data.Migrations
 {
-    public partial class FirstMigrationImportDatabaseClasses : Migration
+    public partial class MigrationBeforeComplete : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,6 +64,20 @@ namespace PetStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Distributors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    BankAccount = table.Column<string>(maxLength: 27, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Distributors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Image",
                 columns: table => new
                 {
@@ -86,6 +100,7 @@ namespace PetStore.Data.Migrations
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Weight = table.Column<double>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
                     EsprirationDate = table.Column<DateTime>(nullable: false),
                     BrandId = table.Column<int>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false)
@@ -116,6 +131,7 @@ namespace PetStore.Data.Migrations
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(maxLength: 1000, nullable: true),
                     Price = table.Column<decimal>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
                     BrandId = table.Column<int>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false)
                 },
@@ -153,6 +169,34 @@ namespace PetStore.Data.Migrations
                         name: "FK_Orders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DistributorDeliveries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DeliveryDate = table.Column<DateTime>(nullable: false),
+                    Cost = table.Column<decimal>(nullable: false),
+                    DistributorId = table.Column<int>(nullable: false),
+                    OrderId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DistributorDeliveries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DistributorDeliveries_Distributors_DistributorId",
+                        column: x => x.DistributorId,
+                        principalTable: "Distributors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DistributorDeliveries_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -249,11 +293,79 @@ namespace PetStore.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "DeliveryFoods",
+                columns: table => new
+                {
+                    DeliveryId = table.Column<int>(nullable: false),
+                    FoodId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeliveryFoods", x => new { x.DeliveryId, x.FoodId });
+                    table.ForeignKey(
+                        name: "FK_DeliveryFoods_DistributorDeliveries_DeliveryId",
+                        column: x => x.DeliveryId,
+                        principalTable: "DistributorDeliveries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DeliveryFoods_Foods_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DeliveryToies",
+                columns: table => new
+                {
+                    DeliveryId = table.Column<int>(nullable: false),
+                    ToyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeliveryToies", x => new { x.DeliveryId, x.ToyId });
+                    table.ForeignKey(
+                        name: "FK_DeliveryToies_DistributorDeliveries_DeliveryId",
+                        column: x => x.DeliveryId,
+                        principalTable: "DistributorDeliveries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DeliveryToies_Toys_ToyId",
+                        column: x => x.ToyId,
+                        principalTable: "Toys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_Email",
                 table: "Customers",
                 column: "Email",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeliveryFoods_FoodId",
+                table: "DeliveryFoods",
+                column: "FoodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeliveryToies_ToyId",
+                table: "DeliveryToies",
+                column: "ToyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DistributorDeliveries_DistributorId",
+                table: "DistributorDeliveries",
+                column: "DistributorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DistributorDeliveries_OrderId",
+                table: "DistributorDeliveries",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FoodOrder_OrderId",
@@ -314,6 +426,12 @@ namespace PetStore.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "DeliveryFoods");
+
+            migrationBuilder.DropTable(
+                name: "DeliveryToies");
+
+            migrationBuilder.DropTable(
                 name: "FoodOrder");
 
             migrationBuilder.DropTable(
@@ -321,6 +439,9 @@ namespace PetStore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ToyOrders");
+
+            migrationBuilder.DropTable(
+                name: "DistributorDeliveries");
 
             migrationBuilder.DropTable(
                 name: "Foods");
@@ -332,19 +453,22 @@ namespace PetStore.Data.Migrations
                 name: "Image");
 
             migrationBuilder.DropTable(
-                name: "Orders");
-
-            migrationBuilder.DropTable(
                 name: "Toys");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Distributors");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
         }
     }
 }

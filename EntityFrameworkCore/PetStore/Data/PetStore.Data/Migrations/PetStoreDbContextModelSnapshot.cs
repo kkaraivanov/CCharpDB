@@ -362,7 +362,7 @@ namespace PetStore.Data.Migrations
                     b.ToTable("Toys");
                 });
 
-            modelBuilder.Entity("PetStore.Data.Model.ToyModel.ToyOrders", b =>
+            modelBuilder.Entity("PetStore.Data.Model.ToyModel.ToyOrder", b =>
                 {
                     b.Property<int>("ToyId")
                         .HasColumnType("int");
@@ -410,7 +410,7 @@ namespace PetStore.Data.Migrations
             modelBuilder.Entity("PetStore.Data.Model.Distributor.DistributorDelivery", b =>
                 {
                     b.HasOne("PetStore.Data.Model.Distributor.Distributor", "Distributor")
-                        .WithMany("DistributorDeliverys")
+                        .WithMany("DistributorDeliveries")
                         .HasForeignKey("DistributorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -502,7 +502,7 @@ namespace PetStore.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PetStore.Data.Model.ToyModel.ToyOrders", b =>
+            modelBuilder.Entity("PetStore.Data.Model.ToyModel.ToyOrder", b =>
                 {
                     b.HasOne("PetStore.Data.Model.StoreModel.Order", "Order")
                         .WithMany("ToyOrders")

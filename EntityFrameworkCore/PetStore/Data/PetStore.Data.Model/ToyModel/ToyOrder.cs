@@ -2,7 +2,7 @@
 {
     using StoreModel;
 
-    public class ToyOrders
+    public class ToyOrder
     {
         public int ToyId { get; set; }
         public Toy Toy { get; set; }

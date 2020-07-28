@@ -8,11 +8,6 @@
     {
         public void Configure(EntityTypeBuilder<DistributorDelivery> b)
         {
-            b.HasOne(x => x.Distributor)
-                .WithMany(x => x.DistributorDeliverys)
-                .HasForeignKey(x => x.DistributorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             b.HasMany(x => x.DeliveryFoods)
                 .WithOne(x => x.DistributorDelivery)
                 .HasForeignKey(x => x.DeliveryId)
