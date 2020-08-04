@@ -10,7 +10,6 @@
     using Data.Models;
     using Data.Models.Enums;
     using ImportDto;
-    using Microsoft.EntityFrameworkCore.Internal;
 
     public class Deserializer
     {
@@ -161,7 +160,7 @@
                     Movie = context.Movies.FirstOrDefault(x => x.Id == dto.MovieId),
                     DateTime = parsedDate
                 };
-                ;
+                
                 projections.Add(projection);
                 var result = string.Format(SuccessfulImportProjection, projection.Movie.Title, date);
                 sb.AppendLine(result);
@@ -175,7 +174,68 @@
 
         public static string ImportCustomerTickets(CinemaContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            var customerDto = Engine.XmlDeserializer<ImportCustomerDto>(xmlString, "Customers");
+            var customers = new List<Customer>();
+            var sb = new StringBuilder();
+
+            foreach (var dto in customerDto)
+            {
+                if (!IsValid(dto))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+                 
+                var customer = new Customer()
+                {
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName,
+                    Age = dto.Age,
+                    Balance = dto.Balance
+                };
+
+                var tickets = new List<Ticket>();
+                var ticketsTotalPrice = 0.0m;
+                foreach (var dtoTicket in dto.Tickets)
+                {
+                    if (!IsValid(dtoTicket))
+                    {
+                        sb.AppendLine(ErrorMessage);
+                        continue;
+                    }
+
+                    if (!context.Projections.Any(x => x.Id == dtoTicket.ProjectionId))
+                    {
+                        sb.AppendLine(ErrorMessage);
+                        continue;
+                    }
+
+                    var projection = context.Projections.First(x => x.Id == dtoTicket.ProjectionId);
+                    var ticket = new Ticket()
+                    {
+                        Price = dtoTicket.Price,
+                        Projection = projection,
+                        Customer = customer
+                    };
+
+
+                    ticketsTotalPrice += ticket.Price;
+                    customer.Tickets.Add(ticket);
+                }
+
+                customers.Add(customer);
+                var result = string.Format(
+                    SuccessfulImportCustomerTicket,
+                    customer.FirstName, 
+                    customer.LastName,
+                    customer.Tickets.Count);
+                sb.AppendLine(result);
+            }
+
+            context.Customers.AddRange(customers);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
 
         private static bool IsValid(object dto)
