@@ -20,7 +20,8 @@
                     MovieName = x.Title,
                     Rating = x.Rating.ToString("f2"),
                     TotalIncomes = x.Projections.Sum(t => t.Tickets.Sum(p => p.Price)).ToString("F2"),
-                    Customers = x.Projections.SelectMany(t => t.Tickets).Select(c => new
+                    Customers = x.Projections.SelectMany(t => t.Tickets)
+                        .Select(c => new
                         {
                             FirstName = c.Customer.FirstName,
                             LastName = c.Customer.LastName,
